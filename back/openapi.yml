@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: Film.java API
+  version: 1.0.0
+paths:
+
+  /films:
+    get:
+      summary: Liste tous les films
+      responses:
+        '200':
+          description: Une liste des films
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilmList'
+    post:
+      summary: Crée un nouveau film
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+      responses:
+        '201':
+          description: Nouveau film créé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+
+  /films/{filmId}:
+    get:
+      summary: Récupère un film par son ID
+      parameters:
+        - name: filmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Un film détaillé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+    put:
+      summary: Met à jour un film
+      parameters:
+        - name: filmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Film'
+      responses:
+        '200':
+          description: Film mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Film'
+    delete:
+      summary: Supprime un film
+      parameters:
+        - name: filmId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Film supprimé
+
+components:
+  schemas:
+    # Schéma pour un film
+    Film:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        description:
+          type: string
+        thumbnailUrl:
+          type: string
+        photosUrls:
+          type: array
+          items:
+            type: string
+
+    # Schéma pour une liste de films
+    FilmList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Film'
