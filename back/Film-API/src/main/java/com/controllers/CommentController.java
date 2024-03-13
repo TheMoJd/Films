@@ -19,20 +19,20 @@ public class CommentController {
 
     @GetMapping("/{movieId}")
     public ResponseEntity<List<CommentDto>> getCommentsByFilmId(@PathVariable Long movieId) {
-        List<CommentDto> comments = commentService.findByMovieId(movieId);
+        List<CommentDto> comments = commentService.findCommentsByMovieId(movieId);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto) {
-        CommentDto newComment = commentService.save(commentDto);
+        CommentDto newComment = commentService.saveComment(commentDto);
         return new ResponseEntity<>(newComment, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CommentDto> updateComment(@PathVariable Long id, @RequestBody CommentDto commentDto) {
-        commentDto.setId(id);
-        CommentDto updatedComment = commentService.save(commentDto);
+        commentDto.setComment_id(id);
+        CommentDto updatedComment = commentService.saveComment(commentDto);
         if (updatedComment != null) {
             return new ResponseEntity<>(updatedComment, HttpStatus.OK);
         } else {

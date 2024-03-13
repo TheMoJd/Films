@@ -17,9 +17,10 @@ const routes = [
     },
 
     {
-        path: "/forumCommentaire/:movie_id",
+        path: "/ForumCommentaire/:movieId/:userId", // Assurez-vous que les paramètres correspondent
         name: "ForumCommentaire",
-        component: ForumCommentaire
+        component: ForumCommentaire,
+        props: true
 
     }
 

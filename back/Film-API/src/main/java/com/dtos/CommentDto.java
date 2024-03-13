@@ -3,8 +3,8 @@ package com.dtos;
 import java.util.Date;
 
 public class CommentDto {
-    private Long id;
-    private Long movie_id;
+    private Long comment_id;
+    private Long movieId;
     private Long user_id;
     private String corps;
 
@@ -12,20 +12,21 @@ public class CommentDto {
 
     // Getters et Setters
 
-    public Long getId() {
-        return id;
+
+    public Long getComment_id() {
+        return comment_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
     }
 
-    public Long getMovie_id() {
-        return movie_id;
+    public Long getMovieId() {
+        return movieId;
     }
 
-    public void setMovie_id(Long movie_id) {
-        this.movie_id = movie_id;
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
     }
 
     public Long getUser_id() {

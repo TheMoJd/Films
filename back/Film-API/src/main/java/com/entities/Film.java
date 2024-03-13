@@ -21,8 +21,6 @@ public class Film {
     @Column(name = "description") // Correspond à la description du film
     private String description;
 
-
-
     @Column(name = "url") // Correspond à la description du film
     private String url;
 

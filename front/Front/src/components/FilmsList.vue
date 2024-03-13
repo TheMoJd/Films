@@ -17,7 +17,7 @@ onMounted(async () => {
     console.log(films.value);
     // recuperer les commentaires pour chaque film
 
-    for ( const film of films.value){
+    for (const film of films.value){
       const response = await CommentaireService.getCommentaireByMovieId(film.id);
       commentaires.value[film.id] = response.data;
     }
@@ -30,14 +30,14 @@ onMounted(async () => {
 });
 
 
-/*
-const redirectToCommentPage = (filmId) => {
+
+const redirectToCommentPage = (movieId) => {
   // Ou utilisez votre routeur Vue pour naviguer
-  console.log(filmId);
-  router.push({ name: 'forumCommentaire', params: { filmId: filmId } });
+  console.log(movieId);
+  router.push({ name: 'ForumCommentaire', params: { movieId: movieId, userId: '1' } });
 };
 
-*/
+
 
 </script>
 

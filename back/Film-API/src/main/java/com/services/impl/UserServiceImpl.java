@@ -1,38 +1,31 @@
 package com.services.impl;
 
 import com.services.UserService;
-import com.entities.*;
-import com.dtos.*;
+import com.entities.User;
+import com.dtos.UserDto;
 import com.repositories.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
 
     public boolean validateLogin(UserDto userDto) {
         return userRepository.findByUsername(userDto.getUsername())
-                .map(user -> passwordEncoder.matches(userDto.getPassword(), user.getPassword()))
+                .map(user -> user.getPassword().equals(userDto.getPassword()))
                 .orElse(false);
     }
-
 
     public UserDto saveUser(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setActive(userDto.getIs_admin());
+        user.setPassword(userDto.getPassword()); // Directement le mot de passe en clair
+        user.setActive(userDto.getActive());
         user.setAdmin(userDto.getIs_admin());
         user = userRepository.save(user);
         return convertToDto(user);
@@ -62,10 +55,8 @@ public class UserServiceImpl implements UserService{
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
-        // mot de passe non inclu pour des raisons de sécurité
         userDto.setActive(user.isActive());
+        userDto.setIs_admin(user.isAdmin());
         return userDto;
     }
-
-
 }
