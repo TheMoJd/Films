@@ -1,11 +1,13 @@
 <script setup>
 import {ref, onMounted, nextTick} from 'vue';
 import FilmService from '../services/FilmService.js';
+import CommentaireService from "@/services/CommentaireService.js";
+import router from "@/router/index.js";
 
 
 const films = ref([]);
 
-
+const commentaires = ref([]);
 
 
 onMounted(async () => {
@@ -13,6 +15,13 @@ onMounted(async () => {
     const response = await FilmService.getAllFilms(); // Récupération des lieux depuis le service
     films.value = response.data; // Mise à jour de la liste des lieux avec les données récupérées
     console.log(films.value);
+    // recuperer les commentaires pour chaque film
+
+    for ( const film of films.value){
+      const response = await CommentaireService.getCommentaireByMovieId(film.id);
+      commentaires.value[film.id] = response.data;
+    }
+    console.log(commentaires.value);
     await nextTick(); // Attente de la mise à jour du DOM
 
   } catch (error) {
@@ -20,6 +29,15 @@ onMounted(async () => {
   }
 });
 
+
+/*
+const redirectToCommentPage = (filmId) => {
+  // Ou utilisez votre routeur Vue pour naviguer
+  console.log(filmId);
+  router.push({ name: 'forumCommentaire', params: { filmId: filmId } });
+};
+
+*/
 
 </script>
 
@@ -33,6 +51,19 @@ onMounted(async () => {
 
         <p><strong>Date de sortie :</strong> {{ film.release_date }}</p>
         <p>{{ film.description }}</p>
+        <!--boucle for pour parcourir les commentaires correspondant a ce film -->
+        <h4>Commentaires</h4>
+        <ul>
+          <li v-for="commentaire in commentaires[film.id]" :key="commentaire.id">
+            {{ commentaire.corps }}
+          </li>
+          <!--Button qui redirige vers forum pour laisser un commentaire-->
+          <button @click="redirectToCommentPage(film.id)">Laisser un commentaire</button>
+
+
+          <!--          Boutton pour rajout qu panier-->
+          <button @click="ajouterAuPanier(film)">Ajouter au panier</button>
+        </ul>
 
       </div>
     </div>
