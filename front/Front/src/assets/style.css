@@ -1,0 +1,111 @@
+.film-list-container {
+    max-width: 1200px; /* Limite la largeur maximale */
+    margin: 0 auto; /* Centre le conteneur */
+    padding: 20px;
+}
+
+.films {
+    display: flex;
+    flex-wrap: wrap; /* Permet aux cartes de passer à la ligne suivante si nécessaire */
+    gap: 20px; /* Espacement entre les cartes */
+    justify-content: center; /* Centre les cartes horizontalement */
+}
+
+.film-card {
+    flex: 0 1 300px; /* Les cartes peuvent rétrécir jusqu'à 300px et grandir si nécessaire */
+    background: #fff; /* Arrière-plan blanc */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Ombre subtile pour la profondeur */
+    padding: 20px;
+    border-radius: 5px; /* Bordures arrondies */
+}
+
+.film-card h3 {
+    margin-top: 0;
+}
+
+.film-photos img {
+    max-width: 100%; /* Assure que les images ne dépassent pas de leurs conteneurs */
+    height: auto; /* Maintient le ratio aspect des images */
+    margin-top: 10px; /* Espacement entre le texte et les images */
+    border-radius: 5px; /* Bordures arrondies pour les images */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: .5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: .5rem 1rem;
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.alert {
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.alert-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+.btn-close {
+    float: right;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    color: #000;
+    opacity: .75;
+}

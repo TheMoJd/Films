@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory} from "vue-router";
 import Films from "@/components/FilmsList.vue";
-import CommentaireList from "@/components/CommentaireList.vue";
 import ForumCommentaire from "@/components/ForumCommentaire.vue";
+import AdminFilmList from "@/components/AdminFilmList.vue";
+import UsersList from "@/components/UsersList.vue";
 
 const routes = [
 
@@ -10,20 +11,29 @@ const routes = [
         name: "Accueil",
         component: Films
     },
-    {
-        path: "/commentaires",
-        name: "Commentaires",
-        component: CommentaireList
-    },
+
 
     {
-        path: "/ForumCommentaire/:movieId/:userId", // Assurez-vous que les paramètres correspondent
+        path: "/ForumCommentaire/:movieId/:userId",
         name: "ForumCommentaire",
         component: ForumCommentaire,
         props: true
 
-    }
+    },
+    {
+        path: "/adminFilmList",
+        name: "AdminFilmList",
+        component: AdminFilmList,
+        props: true
 
+    },
+    {
+        path: "/usersList",
+        name: "UsersList",
+        component: UsersList,
+        props: true
+
+    }
 
 ];
 

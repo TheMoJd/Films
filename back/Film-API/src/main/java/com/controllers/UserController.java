@@ -37,6 +37,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+
         UserDto newUser = userService.saveUser(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
@@ -51,8 +52,7 @@ public class UserController {
     // Méthode mise à jour pour éviter le conflit de chemin
     @PutMapping("/update/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
-        userDto.setId(id);
-        UserDto updatedUser = userService.saveUser(userDto);
+        UserDto updatedUser = userService.updateUser(id, userDto);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 

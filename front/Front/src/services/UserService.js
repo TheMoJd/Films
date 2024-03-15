@@ -25,7 +25,7 @@ class UserService {
 
     // Méthode pour mettre à jour un utilisateur
     updateUser(userId, userDto) {
-        return axios.put(`${API_URL}/${userId}`, userDto);
+        return axios.put(`${API_URL}/update/${userId}`, userDto);
     }
 
     // Méthode pour désactiver (ou supprimer) un utilisateur

@@ -1,7 +1,7 @@
 package com.dtos;
 
 public class UserDto {
-    private Long id;
+    private Long user_id;
     private String username;
     private String password;
 
@@ -9,11 +9,11 @@ public class UserDto {
     private Boolean active;
 
     public Long getId() {
-        return id;
+        return user_id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.user_id = id;
     }
 
     public Boolean getIs_admin() {

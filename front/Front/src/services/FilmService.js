@@ -11,11 +11,11 @@ class FilmService {
         return axios.get(`${API_URL}/${id}`);
     }
 
-    createFilm(film) { // Changez le paramètre de 'lieu' à 'film' pour mieux refléter son but
+    createFilm(film) {
         return axios.post(API_URL, film);
     }
 
-    updateFilm(id, film) { // Ici aussi, changez 'lieu' en 'film'
+    updateFilm(id, film) {
         return axios.put(`${API_URL}/${id}`, film);
     }
 

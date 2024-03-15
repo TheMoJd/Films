@@ -4,7 +4,6 @@ import FilmService from '../services/FilmService.js';
 import CommentaireService from "@/services/CommentaireService.js";
 import router from "@/router/index.js";
 
-
 const films = ref([]);
 
 const commentaires = ref([]);

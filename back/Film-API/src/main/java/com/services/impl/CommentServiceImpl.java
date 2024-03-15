@@ -4,6 +4,8 @@ import com.dtos.CommentDto;
 import com.entities.Comment;
 import com.repositories.CommentRepository;
 import com.services.CommentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ public class CommentServiceImpl implements CommentService {
 
 
     private final CommentRepository commentRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
@@ -29,6 +33,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> findCommentsByMovieId(Long movie_id) {
+        System.out.println("On est la ");
+        //System.out.println(commentRepository.findByMovieId(movie_id).toString());
+        //[comments.forEach(comment -> log.info(comment.getComment_id().toString()));
+
         return commentRepository.findByMovieId(movie_id).stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -45,6 +53,9 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentDto convertToDto(Comment comment) {
         CommentDto commentDto = new CommentDto();
+        if (comment.getId() != null) {
+            commentDto.setComment_id(comment.getId());
+        }
         BeanUtils.copyProperties(comment, commentDto);
         return commentDto;
     }
