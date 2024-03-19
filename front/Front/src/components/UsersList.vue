@@ -27,7 +27,7 @@
           </select>
         </td>
         <td>
-          <button @click="saveUser(user, user_id) ">Modifier</button>
+          <button @click="saveUser(user, user.id) ">Modifier</button>
         </td>
       </tr>
       </tbody>
@@ -57,7 +57,7 @@ onMounted(async () => {
 const saveUser = async (user, user_id) => {
   await UserService.updateUser(user_id, user);
   messageSuccess.value = 'Utilisateur modifié avec succès';
-
+  setTimeout(() => messageSuccess.value = '', 3000);
 };
 </script>
 

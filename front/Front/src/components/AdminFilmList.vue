@@ -2,7 +2,6 @@
 import {ref, onMounted, nextTick} from 'vue';
 import FilmService from '../services/FilmService.js';
 import CommentaireService from "@/services/CommentaireService.js";
-import router from "@/router/index.js";
 import MessageSucces from "@/components/MessageSucces.vue";
 
 const films = ref([]);
@@ -17,7 +16,7 @@ const loadFilmsandComments = async () => {
     films.value = response.data; // Mise à jour de la liste des lieux avec les données récupérées
     // recuperer les commentaires pour chaque film
 
-    for (const film of films.value){
+    for (const film of films.value) {
       const response = await CommentaireService.getCommentaireByMovieId(film.id);
       commentaires.value[film.id] = response.data;
     }
@@ -32,9 +31,20 @@ const loadFilmsandComments = async () => {
 onMounted(() => {
   loadFilmsandComments();
 });
+const deleteFilm = async (filmId) => {
+  try {
+    const response = await FilmService.deleteFilm(filmId);
+    await nextTick(); // Attente de la mise à jour du DOM
 
+    console.log(response);
+    films.value = films.value.filter(film => film.id !== filmId);
+    successMessage.value = "Film supprimé avec succès"; // Mettre à jour le message de succès
+    setTimeout(() => successMessage.value = '', 3000);
 
-
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const deleteComment = async (commentId) => {
   if (typeof commentId === 'undefined' || commentId === null) {
@@ -59,26 +69,37 @@ const deleteComment = async (commentId) => {
   }
 };
 
+
+
 </script>
 
 <template>
 <!-- Message de succes -->
   <MessageSucces v-if="successMessage" :message="successMessage" />
+
   <div class="film-list-container">
-    <h2>Liste de Films</h2>
+    <h2>Gestion de Films et Commentaires</h2>
     <div class="films">
       <div class="film-card" v-for="film in films" :key="film.id">
-        <h3>{{ film.name }}</h3>
+        <h3>{{ film.name }}  <font-awesome-icon icon="times" @click="deleteFilm(film.id)" style="color : red"/></h3>
+
+
         <img v-if="film.url" :src="`/${film.url}`" :alt="film.name" class="film-image"/>
 
         <p><strong>Date de sortie :</strong> {{ film.release_date }}</p>
+
         <p>{{ film.description }}</p>
+
+        <!--
+                <button @click="deleteFilm(film.id)">Supprimer</button>
+        -->
         <!--boucle for pour parcourir les commentaires correspondant a ce film -->
         <h4>Commentaires</h4>
         <ul>
           <li v-for="commentaire in commentaires[film.id]" :key="commentaire.id">
             {{ commentaire.corps }} -- {{commentaire.comment_id}}
             <button @click="deleteComment(commentaire.comment_id)">Supprimer</button>
+
           </li>
         </ul>
       </div>
