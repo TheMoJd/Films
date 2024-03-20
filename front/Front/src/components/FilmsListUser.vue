@@ -8,11 +8,9 @@ import MessageSuccess from "@/components/MessageSucces.vue";
 import useAuthStore from "@/store/authStore.js";
 
 const { state } = useAuthStore();
-//const user_id = computed(() => state.user ? state.user.user_id : 'Invité');
+const user_id = computed(() => state.user ? state.user.user_id : 0);
+console.log(user_id.value);
 const films = ref([]);
-const user = computed(() => state.user);
-const user_id = user.value ;
-console.log(user.value);
 
 const commentaires = ref([]);
 
@@ -40,18 +38,21 @@ onMounted(async () => {
 
 const redirectToCommentPage = (movieId) => {
   // Ou utilisez votre routeur Vue pour naviguer
-  console.log(movieId);
-  if (user === null) {
+  if (user_id.value === 0) {
     redirectToLogin();
     return; // Arrêter l'exécution si l'utilisateur n'est pas connecté
   }
-  router.push({ name: 'ForumCommentaire', params: { movieId: movieId, userId: user_id } });
+  else {
+    console.log("ici");
+    router.push({ name: 'ForumCommentaire', params: { movieId: movieId, userId: user_id.value } });
+  }
 };
+
 const panier = ref({ items: [] });
 
 const successMessage = ref(''); // Pour stocker le message de succès
 const ajouterAuPanier = async (filmId) => {
-  if (user === null) {
+  if (user_id.value === 0) {
     redirectToLogin();
     return; // Arrêter l'exécution si l'utilisateur n'est pas connecté
   }
@@ -59,8 +60,8 @@ const ajouterAuPanier = async (filmId) => {
   try {
     // Obtention de tous les paniers, puis filtrage pour celui de l'utilisateur actuel
     const response1 = await PanierService.getAllPaniers();
-    const userPanier = response1.data.filter(p => p.user_id === user_id);
-
+    const userPanier = response1.data.filter(p => p.user_id === user_id.value);
+    console.log(userPanier);
     if (userPanier.length > 0) {
       const panierId = userPanier[0].id; // Assurez-vous que l'ID est correctement extrait
       console.log(panierId, filmId);
@@ -68,11 +69,13 @@ const ajouterAuPanier = async (filmId) => {
       // Appel du service pour ajouter le film au panier
       const response = await PanierService.ajouterFilmAuPanier(panierId, filmId, 1);
       await nextTick(); // Attente de la mise à jour du DOM
+
       successMessage.value = 'Film ajouté au panier avec succès';
       setTimeout(() => successMessage.value = '', 3000);
       console.log(response);
     } else {
-      console.log("Aucun panier trouvé pour cet utilisateur.");
+      redirectToLogin();
+      console.log("Aucun panier trouvé pour cet utilisateur. Redirection vers la page de connenxion");
     }
   } catch (error) {
     console.error("Erreur lors de l'ajout au panier :", error);
@@ -82,7 +85,7 @@ const ajouterAuPanier = async (filmId) => {
 
 const redirectToLogin = () => {
   // Rediriger l'utilisateur vers la page de connexion
-  router.push({ name: 'Connexion' }); // Assurez-vous que le nom de la route de connexion est correct
+  router.push({ name: 'Connexion' });
 };
 </script>
 

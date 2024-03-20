@@ -10,8 +10,8 @@ class PanierService {
         return axios.get(`${API_PANIER_URL}/${id}`);
     }
 
-    createPanier(panier) {
-        return axios.post(API_PANIER_URL, panier);
+    createPanier(user_id) {
+        return axios.post(`${API_PANIER_URL}/createPanier/${user_id}`);
     }
 
     updatePanier(id, panier) {

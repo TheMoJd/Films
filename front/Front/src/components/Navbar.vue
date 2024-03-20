@@ -15,7 +15,7 @@ const isActive = computed(() => state.user && state.user.active);
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <router-link class="nav-link" to="/"><font-awesome-icon icon="home" /></router-link>
+            <router-link class="nav-link" to="/" v-if="!isAdmin"><font-awesome-icon icon="home" /></router-link>
           </li>
           <li class="nav-item" v-if="isActive && isAdmin">
             <router-link class="nav-link" to="/adminFilmList"><font-awesome-icon icon="film" /></router-link>
@@ -27,15 +27,20 @@ const isActive = computed(() => state.user && state.user.active);
           </li>
 
           <li class="nav-item" >
-            <router-link class="nav-link" to="/connexion" ><font-awesome-icon icon="user" /></router-link>
+            <router-link class="nav-link" to="/connexion"  v-if="user_id==='Invité' "><font-awesome-icon icon="user" /></router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/inscription">Inscription</router-link>
+            <router-link class="nav-link" to="/inscription" v-if="user_id==='Invité' ">Inscription</router-link>
           </li>
-          <li class="nav-item"  v-if="state" >
+
+          <li class="nav-item" v-if="user_id!=='Invité' && !isAdmin" >
             <router-link class="nav-link" to="/panier">
               <font-awesome-icon icon="shopping-cart" />
             </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link class="nav-link" to="/logout" v-if="user_id!=='Invité' && isActive">Logout</router-link>
           </li>
         </ul>
       </div>

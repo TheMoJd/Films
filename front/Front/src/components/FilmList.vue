@@ -51,7 +51,7 @@ const ajouterAuPanier = async (filmId) => {
     // Obtention de tous les paniers, puis filtrage pour celui de l'utilisateur actuel
     const response1 = await PanierService.getAllPaniers();
     const userPanier = response1.data.filter(p => p.user_id === user_id);
-
+    console.log(userPanier);
     if (userPanier.length > 0) {
       const panierId = userPanier[0].id; // Assurez-vous que l'ID est correctement extrait
       console.log(panierId, filmId);

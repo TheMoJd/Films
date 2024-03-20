@@ -12,7 +12,10 @@ function setUser(decodedToken) {
         console.error("Erreur lors du décodage du token :", error);
     }
 }
+function clearUser() {
+    state.user = null;
+}
 
 export default function useAuthStore() {
-    return { state: readonly(state), setUser };
+    return { state: readonly(state), setUser, clearUser };
 }

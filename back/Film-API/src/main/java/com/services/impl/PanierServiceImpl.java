@@ -7,6 +7,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.services.PanierService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +60,15 @@ public class PanierServiceImpl implements PanierService {
         System.out.println("Liste des paniers : ");
         System.out.println(paniers);
         return paniers;
+    }
+
+    @Override
+    public PanierDto createPanier(Long user_id) {
+        Panier panier = new Panier();
+        panier.setUser_id(user_id); // Attribuer l'user_id au panier
+        panier.setItems(new ArrayList<>());
+        panier = panierRepository.save(panier); // Sauvegarder le panier dans la base de données
+        return convertToDto(panier); // Convertir le panier en PanierDto et le retourner
     }
 
 

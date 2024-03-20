@@ -18,6 +18,10 @@ class UserService {
         return axios.get(`${API_URL}/${userId}`);
     }
 
+    getUserByUsername(username) {
+        return axios.get(`${API_URL}/getbyusername/${username}`);
+    }
+
     // Méthode pour créer un nouvel utilisateur
     createUser(userDto) {
         return axios.post(API_URL, userDto);
@@ -33,6 +37,10 @@ class UserService {
         // Supposons qu'il existe un endpoint spécifique pour la désactivation
         return axios.put(`${API_URL}/deactivate/${userId}`);
     }
+
+
+
+
 }
 
 export default new UserService();

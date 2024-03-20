@@ -46,7 +46,7 @@ app.post("/inscription", async (req, res) => {
 });
 
 // Exemple d'utilisation pour une route accessible par tous les utilisateurs authentifiés
-app.get("/profile", verifyToken, (req, res) => {
+app.get("/adminFilmist", verifyToken, (req, res) => {
     res.send("Profil de l'utilisateur");
 });
 

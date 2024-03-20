@@ -10,10 +10,13 @@
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
+import PanierService from "@/services/PanierService.js";
+import UserService from "@/services/UserService.js";
+import router from "@/router/index.js";
 
 const username = ref('');
 const password = ref('');
-
+const user_id = ref('');
 async function inscription() {
   try {
     // Vérifiez l'endpoint et ajustez-le selon votre API
@@ -21,16 +24,21 @@ async function inscription() {
       username: username.value,
       password: password.value,
     });
+    console.log(response);
 
-    // Vous pouvez ajuster cette réponse en fonction de ce que votre API renvoie
     if (response.data.res) {
+      const response1 = await UserService.getUserByUsername(username.value);
+      console.log(response1.data);
+      user_id.value = response1.data.id;
+      console.log(user_id.value);
+      const panierResponse = await PanierService.createPanier(user_id.value);
       alert('Inscription réussie. Vous pouvez maintenant vous connecter.');
       // Redirection ou nettoyage du formulaire ici
       username.value = '';
       password.value = '';
+      redirectToLogin();
     } else {
-      // Gestion des messages d'erreur renvoyés par votre API
-      alert('Erreur lors de l’inscription: ' + response.data.mess.join('\n'));
+      alert('Erreur lors de l’inscription. Veuillez réessayer plus tard.');
     }
   } catch (error) {
     // Gestion des erreurs de connexion ou d'autres erreurs côté client
@@ -38,6 +46,11 @@ async function inscription() {
     alert('Erreur lors de l’inscription. Veuillez réessayer plus tard.');
   }
 }
+
+const redirectToLogin = () => {
+  // Rediriger l'utilisateur vers la page de connexion
+  router.push({ name: 'Connexion' });
+};
 </script>
 
 <style scoped>

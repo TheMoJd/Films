@@ -17,20 +17,24 @@
 
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted, computed} from 'vue';
 import PanierService from '../services/PanierService'; // Assurez-vous d'avoir créé ce service
 import FilmService from '../services/FilmService'; // Assurez-vous d'avoir créé ce service
 import MessageSucces from "@/components/MessageSucces.vue";
+import useAuthStore from "@/store/authStore.js";
 
-const user_id = 1; // Remplacez par l'ID de l'utilisateur connecté
+const {state} = useAuthStore();
+const user_id = computed(() => state.user ? state.user.user_id : 0);
+console.log(user_id.value);
 const panier = ref({ items: [] });
 const successMessage = ref('');
 
 async function chargerPanier() {
   try {
     const response = await PanierService.getAllPaniers();
-    const userPaniers = response.data.filter(p => p.user_id === user_id); // Filtrer les paniers pour l'utilisateur connecté
-
+    console.log(response.data);
+    const userPaniers = response.data.filter(p => p.user_id === user_id.value); // Filtrer les paniers pour l'utilisateur connecté
+    console.log(userPaniers);
     if (userPaniers.length > 0) {
       panier.value = userPaniers[0];
 

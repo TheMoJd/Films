@@ -51,4 +51,7 @@ public interface PanierService {
      * Met à jour un panier.
      */
     PanierDto updatePanier(PanierDto panierDto);
-}
+
+    PanierDto createPanier(Long user_id);
+
+    }

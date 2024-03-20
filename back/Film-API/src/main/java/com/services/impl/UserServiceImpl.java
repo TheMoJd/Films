@@ -59,6 +59,12 @@ public class UserServiceImpl implements UserService {
                 .orElse(null);
     }
 
+    public UserDto getUserByUsername(String userName) {
+        return userRepository.findByUsername(userName)
+                .map(this::convertToDto)
+                .orElse(null);
+    }
+
     public boolean deactivateUser(Long userId) {
         return userRepository.findById(userId).map(user -> {
             user.setActive(false);

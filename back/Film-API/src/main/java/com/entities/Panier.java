@@ -25,8 +25,6 @@ public class Panier {
         this._id = id;
     }
 
-
-
     public Long getUser_id() {
         return user_id;
     }

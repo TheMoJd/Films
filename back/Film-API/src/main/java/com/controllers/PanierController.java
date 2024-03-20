@@ -32,9 +32,9 @@ public class PanierController {
         return new ResponseEntity<>(panier, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<PanierDto> createPanier(@RequestBody PanierDto panierDto) {
-        PanierDto newPanier = panierService.savePanier(panierDto);
+    @PostMapping("/createPanier/{user_id}")
+    public ResponseEntity<PanierDto> createPanier(@PathVariable Long user_id) {
+        PanierDto newPanier = panierService.createPanier(user_id);
         return new ResponseEntity<>(newPanier, HttpStatus.CREATED);
     }
 

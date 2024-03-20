@@ -6,13 +6,15 @@ import UsersList from "@/components/UsersList.vue";
 import PanierUtilisateur from "@/components/PanierUtilisateur.vue";
 import Connexion from "@/components/Connexion.vue";
 import Inscription from "@/components/Inscription.vue";
+import FilmsListUser from "@/components/FilmsListUser.vue";
+import Logout from "@/components/Logout.vue";
 
 const routes = [
 
     {
         path: "/",
         name: "Accueil",
-        component: Films
+        component: FilmsListUser
     },
 
 
@@ -54,6 +56,11 @@ const routes = [
         name: "Inscription",
         component: Inscription
 
+    },
+    {
+        path: "/logout",
+        name: "Logout",
+        component: Logout,
     }
 
 ];

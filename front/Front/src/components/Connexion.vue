@@ -21,6 +21,11 @@ const password = ref('');
 
 async function login() {
   try {
+    if (!username.value || !password.value) {
+      alert("Veuillez remplir tous les champs.");
+      return;
+    }
+
     const response = await axios.post('http://localhost:3000/connexion', {
       username: username.value,
       password: password.value,
@@ -32,8 +37,10 @@ async function login() {
     setUser(decodedToken);
     alert('Connexion réussie');
   } catch (error) {
-    alert('Erreur lors de la connexion.');
+    const message = error.response && error.response.data ? error.response.data.message : 'Erreur lors de la connexion.';
+    alert(message);
   }
+
 }
 </script>
 
