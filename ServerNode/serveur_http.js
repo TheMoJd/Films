@@ -7,13 +7,19 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const verifyToken = require('./midelwares/verifyToken.js');
 const isAdmin = require('./midelwares/isAdmin.js');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', createProxyMiddleware({
+    target: 'http://localhost:8080', // L'adresse de votre serveur Spring
+    changeOrigin: true,
+}));
 
-const PRIVATE_KEY = "zjerYhe+7V"; // À déplacer dans un fichier de configuration ou une variable d'environnement
+
+const PRIVATE_KEY = "zjerYhe+7V";
 
 app.post("/connexion", async (req, res) => {
     const { username, password } = req.body;
@@ -43,16 +49,6 @@ app.post("/inscription", async (req, res) => {
     } catch (error) {
         res.status(500).send({ res: false, mess: ["Erreur serveur"] });
     }
-});
-
-// Exemple d'utilisation pour une route accessible par tous les utilisateurs authentifiés
-app.get("/adminFilmist", verifyToken, (req, res) => {
-    res.send("Profil de l'utilisateur");
-});
-
-// Exemple d'utilisation pour une route réservée aux administrateurs
-app.get("/admin", verifyToken, isAdmin, (req, res) => {
-    res.send("Zone Admin");
 });
 
 const port = process.env.PORT || 3000;

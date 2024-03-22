@@ -8,6 +8,10 @@ import Connexion from "@/components/Connexion.vue";
 import Inscription from "@/components/Inscription.vue";
 import FilmsListUser from "@/components/FilmsListUser.vue";
 import Logout from "@/components/Logout.vue";
+import ForumAjoutFilm from "@/components/ForumAjoutFilm.vue";
+import useAuthStore from "@/store/authStore.js";
+import Locations from "@/components/Locations.vue";
+
 
 const routes = [
 
@@ -29,15 +33,16 @@ const routes = [
         path: "/adminFilmList",
         name: "AdminFilmList",
         component: AdminFilmList,
-        props: true
+        props: true,
+        meta: { requiresAdmin: true }
 
     },
     {
         path: "/usersList",
         name: "UsersList",
         component: UsersList,
-        props: true
-
+        props: true,
+        meta: { requiresAdmin: true }
     },
     {
         path: "/panier",
@@ -61,6 +66,17 @@ const routes = [
         path: "/logout",
         name: "Logout",
         component: Logout,
+    },
+    {
+        path: "/ajoutFilm",
+        name: "ForumAjoutFilm",
+        component: ForumAjoutFilm,
+        meta: { requiresAdmin: true }
+    },
+    {
+        path: "/locations",
+        name: "Locations",
+        component: Locations
     }
 
 ];
@@ -68,6 +84,14 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes
+});
+
+router.beforeEach((to, from, next) => {
+    const { state } = useAuthStore();
+    if (to.meta.requiresAdmin && !(state.user.is_admin)) {
+        return next({ path: '/' }); // Rediriger vers une route sécurisée pour les non-admins
+    }
+    next();
 });
 
 export default router;

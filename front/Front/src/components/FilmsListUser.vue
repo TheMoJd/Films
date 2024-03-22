@@ -6,6 +6,7 @@ import router from "@/router/index.js";
 import PanierService from "@/services/PanierService.js";
 import MessageSuccess from "@/components/MessageSucces.vue";
 import useAuthStore from "@/store/authStore.js";
+import UserService from "@/services/UserService.js";
 
 const { state } = useAuthStore();
 const user_id = computed(() => state.user ? state.user.user_id : 0);
@@ -17,18 +18,18 @@ const commentaires = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await FilmService.getAllFilms(); // Récupération des lieux depuis le service
-    films.value = response.data; // Mise à jour de la liste des lieux avec les données récupérées
-    console.log(films.value);
-    // recuperer les commentaires pour chaque film
+    const filmResponse = await FilmService.getAllFilms();
+    films.value = filmResponse.data;
 
-    for (const film of films.value){
-      const response = await CommentaireService.getCommentaireByMovieId(film.id);
-      commentaires.value[film.id] = response.data;
+    for (const film of films.value) {
+      const commentResponse = await CommentaireService.getCommentaireByMovieId(film.id);
+      const commentsWithUsernames = await Promise.all(commentResponse.data.map(async (comment) => {
+        const username = await getUsernamebyId(comment.user_id);
+        return { ...comment, username }; // Ajouter le nom d'utilisateur au commentaire
+      }));
+
+      commentaires.value[film.id] = commentsWithUsernames;
     }
-    //console.log(commentaires.value);
-    await nextTick(); // Attente de la mise à jour du DOM
-
   } catch (error) {
     console.error(error);
   }
@@ -87,6 +88,17 @@ const redirectToLogin = () => {
   // Rediriger l'utilisateur vers la page de connexion
   router.push({ name: 'Connexion' });
 };
+
+const getUsernamebyId = async (userId) => {
+  try {
+    const response = await UserService.getUserById(userId);
+    const username = response.data.username;
+    console.log(username);
+    return username;
+  } catch (error) {
+    console.error("Erreur lors de la récupération du nom d'utilisateur :", error);
+  }
+};
 </script>
 
 <template>
@@ -104,7 +116,7 @@ const redirectToLogin = () => {
         <h4>Commentaires</h4>
         <ul>
           <li v-for="commentaire in commentaires[film.id]" :key="commentaire.id">
-            {{ commentaire.corps }}
+            {{ commentaire.corps }} - {{ commentaire.username }}
           </li>
           <!--Button qui redirige vers forum pour laisser un commentaire-->
           <button @click="redirectToCommentPage(film.id)">Laisser un commentaire</button>

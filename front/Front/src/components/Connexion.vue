@@ -12,6 +12,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import {jwtDecode} from "jwt-decode";
 import useAuthStore from "@/store/authStore.js";
+import router from "@/router/index.js";
 
 const {setUser} = useAuthStore();
 
@@ -36,6 +37,9 @@ async function login() {
     console.log(decodedToken);
     setUser(decodedToken);
     alert('Connexion réussie');
+    //redirection ver la page d'acceuils
+    await router.push({name: 'Accueil'});
+
   } catch (error) {
     const message = error.response && error.response.data ? error.response.data.message : 'Erreur lors de la connexion.';
     alert(message);

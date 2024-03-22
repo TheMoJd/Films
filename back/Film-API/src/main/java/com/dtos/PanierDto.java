@@ -45,7 +45,6 @@ public class PanierDto {
 
         // Constructeur, Getters et Setters
 
-
         public ItemDto() {
         }
 

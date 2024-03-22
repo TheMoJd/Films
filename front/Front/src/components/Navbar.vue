@@ -21,14 +21,19 @@ const isActive = computed(() => state.user && state.user.active);
             <router-link class="nav-link" to="/adminFilmList"><font-awesome-icon icon="film" /></router-link>
           </li>
 
+
           <li class="nav-item" v-if="isActive && isAdmin">
             <router-link class="nav-link" to="/usersList"> <font-awesome-icon icon="users" />
               </router-link>
           </li>
 
+
+
+
           <li class="nav-item" >
             <router-link class="nav-link" to="/connexion"  v-if="user_id==='Invité' "><font-awesome-icon icon="user" /></router-link>
           </li>
+
           <li class="nav-item">
             <router-link class="nav-link" to="/inscription" v-if="user_id==='Invité' ">Inscription</router-link>
           </li>
@@ -37,6 +42,14 @@ const isActive = computed(() => state.user && state.user.active);
             <router-link class="nav-link" to="/panier">
               <font-awesome-icon icon="shopping-cart" />
             </router-link>
+          </li>
+          <li class="nav-item" v-if="user_id!=='Invité' && !isAdmin">
+            <router-link class="nav-link" to="/locations">Locations
+            </router-link>
+          </li>
+
+          <li class="nav-item">
+            <router-link class="nav-link" to="/ajoutFilm" v-if="user_id!=='Invité' && isActive && isAdmin">Ajout Film</router-link>
           </li>
 
           <li class="nav-item">
